@@ -21,8 +21,9 @@ class PostList extends Component {
         const { sortOrder, sortedOn } = this.state;
         let {posts} = this.props;
         posts = posts.sort(dynamicSort(sortedOn, sortOrder));
-        const tableColumns = [{'id': 'title', 'title': 'Title', 'isSortable': true},
-                            {'id': 'voteScore', 'title': 'Vote Score', 'isSortable': true}];
+        const tableColumns = [{'id': 'title', 'title': 'Title', 'isSortable': false, 'classes': 'col-lg-8 col-md-7 col-sm-6 col-xs-6'},
+                            {'id': 'voteScore', 'title': 'Vote Score', 'isSortable': true, 'classes': 'col-lg-2 col-md-3 col-sm-3 col-xs-3'},
+                            {'id': 'timestamp', 'title': 'Created On', 'isSortable': true, 'classes': 'col-lg-2 col-md-2 col-sm-3 col-xs-3'}];
         const defaultSortOrder = 'desc';
 
         return (
@@ -32,7 +33,7 @@ class PostList extends Component {
                         <thead>
                             <tr>
                                 {tableColumns.map(column => {
-                                    let classes = [];
+                                    let classes = [column.classes];
                                     let columnSortOrder = defaultSortOrder;
                                     if (column.isSortable) {
                                         classes.push('sortable');
@@ -49,19 +50,19 @@ class PostList extends Component {
                                     return (<th
                                                 key={column.id}
                                                 className= {classes.join(' ')}
-                                                onClick={()=> this.onSortClick(column.id, columnSortOrder)}>{column.title}</th>);
+                                                onClick={()=> column.isSortable && this.onSortClick(column.id, columnSortOrder)}>{column.title}</th>);
                                 })}
                             </tr>
                         </thead>
                         <tbody>
                             {posts.map((post) => (
                             <tr key={post.id}>
-                                <td>
-                                    {post.title}
-                                </td>
-                                <td>
-                                    {post.voteScore}
-                                </td>
+                                {tableColumns.map(column => {
+                                    const key = `${post.id}-${column.id}`
+                                    return (<td key={key} className={column.classes}>
+                                        {post[column.id]}
+                                    </td>)
+                                    })}
                             </tr>
                             ))}
                         </tbody>
