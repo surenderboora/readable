@@ -8,3 +8,11 @@ export function dynamicSort(property, order) {
         return result * sortOrder;
     }
 }
+
+export function timestampToDate(timestamp) {
+	const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+						'August', 'September', 'October', 'November', 'December'];
+	const shortMonthNames = monthNames.map((name) => name.substr(0,3));
+	const d = new Date(timestamp);
+	return  shortMonthNames[d.getMonth()] + ', '+ d.getDate() + ' ' + d.getFullYear()
+}

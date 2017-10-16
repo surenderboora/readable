@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {Panel, Table} from 'react-bootstrap';
 import '../static/css/App.css'
-import { dynamicSort } from '../utils'
+import { dynamicSort, timestampToDate } from '../utils'
 class PostList extends Component {
     state = {
-        'sortedOn': 'title',
-        'sortOrder': 'asc'
+        'sortedOn': 'voteScore',
+        'sortOrder': 'desc'
     }
     onSortClick = (sortedOn, sortOrder) => {
         let columnSortOrder = sortOrder === 'asc' ? 'desc': 'asc';
@@ -16,14 +16,17 @@ class PostList extends Component {
     }
     render () {
         const title = (
-            <h3>Posts (Ordered by voteScore, highest first)</h3>
+            <h3>Posts</h3>
         );
         const { sortOrder, sortedOn } = this.state;
         let {posts} = this.props;
         posts = posts.sort(dynamicSort(sortedOn, sortOrder));
+        posts.forEach((post) => {
+            post['createdOn'] = timestampToDate(post['timestamp']);
+        })
         const tableColumns = [{'id': 'title', 'title': 'Title', 'isSortable': false, 'classes': 'col-lg-8 col-md-7 col-sm-6 col-xs-6'},
                             {'id': 'voteScore', 'title': 'Vote Score', 'isSortable': true, 'classes': 'col-lg-2 col-md-3 col-sm-3 col-xs-3'},
-                            {'id': 'timestamp', 'title': 'Created On', 'isSortable': true, 'classes': 'col-lg-2 col-md-2 col-sm-3 col-xs-3'}];
+                            {'id': 'timestamp', 'displayProperty': 'createdOn', 'title': 'Created On', 'isSortable': true, 'classes': 'col-lg-2 col-md-2 col-sm-3 col-xs-3'}];
         const defaultSortOrder = 'desc';
 
         return (
@@ -60,7 +63,7 @@ class PostList extends Component {
                                 {tableColumns.map(column => {
                                     const key = `${post.id}-${column.id}`
                                     return (<td key={key} className={column.classes}>
-                                        {post[column.id]}
+                                        {column.displayProperty? post[column.displayProperty]: post[column.id]}
                                     </td>)
                                     })}
                             </tr>
