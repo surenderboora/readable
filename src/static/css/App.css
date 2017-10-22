@@ -17,6 +17,12 @@
 .App-intro {
   font-size: large;
 }*/
+a{
+    color:#47649F;
+}
+body{
+    font-family:'helvetica';
+}
 .sortable.desc{
 	width: 19px;
     height: 19px;
@@ -31,4 +37,59 @@
 	width: 19px;
     height: 19px;
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAAMUlEQVR42mNgGAWjYACBi4vLf1yYZMP+AwE2g0CALNehG0i2QegGUmwQsoGjqWikAQDy4DiV3Z6MGAAAAABJRU5ErkJggg==) no-repeat right center;
+}
+
+.post-footer-option li{
+    float:left;
+    margin-right:50px;
+    padding-bottom:15px;
+}
+
+.post-footer-option li a{
+    color:#AFB4BD;
+    font-weight:500;
+    font-size:1.3rem;
+}
+
+.photo-profile{
+    border:1px solid #DDD;
+}
+
+.anchor-username h4{
+    font-weight:bold;
+}
+
+.anchor-time{
+    color:#ADB2BB;
+    font-size:1.2rem;
+}
+
+.post-footer-comment-wrapper{
+    background-color:#F6F7F8;
+    margin: 15px;
+}
+.comment {
+  border: 1px solid #cdcdcd;
+  margin-bottom:4px;
+  padding: 5px 12px 0;
+}
+.comment hr{
+  margin-top:5px;
+  margin-bottom: 5px;
+}
+.comment .author{
+  font-weight: bold;
+  color: #999;
+  float:left;
+  margin-right: 10px;
+}
+.comment-footer{
+  padding-left: 15px;
+    border-top: 1px solid #eee;
+    margin-top: 8px;
+}
+.comment-footer li a{
+  color: #AFB4BD;
+  font-weight: 500;
+  font-size: 1.3rem;
 }

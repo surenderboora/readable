@@ -30,6 +30,9 @@ class CreatePostDialog extends Component {
     this.setState({show: false});
   }
 
+  createPost = () => {
+
+  }
   render() {
     return (
       <ButtonToolbar>
@@ -76,7 +79,7 @@ class CreatePostDialog extends Component {
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.hideModal}>Close</Button>
-            <Button onClick={this.createPost} bsStyle="primary">Create</Button>
+            <Button onClick={(e) => this.createPost(e)} bsStyle="primary">Create</Button>
           </Modal.Footer>
         </Modal>
       </ButtonToolbar>

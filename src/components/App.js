@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import '../static/css/App.css';
 import CategoryList from './CategoryList';
 import PostList from './PostList';
+import PostDetailsContainer from './PostDetailsContainer'
 import {Jumbotron, Row, Col} from 'react-bootstrap';
 import CreatePostDialog from './CreatePostDialog'
-
+import {Route} from 'react-router-dom';
 class App extends Component {
   render() {
-  	const posts = [{
+    const posts = [{
             id: 1,
             timestamp: 1507470662668,
             title: 'React 16 is out now!',
@@ -15,7 +16,26 @@ class App extends Component {
             author: 'Surender',
             category: 'react',
             voteScore: 25,
-            deleted: false
+            deleted: false,
+            comments:[{
+              id: 1,
+              parentId:1,  //String  id of the parent post
+              timestamp: 1507470772668, // Integer Time created - default data tracks this in Unix time. You can use Date.now() to get this number
+              body: "Great Article!! Keep Posting!!" ,//String  Comment body
+              author: 'Charlie',  //String  Comment author
+              voteScore: 4, //Integer Net votes the comment has received (default: 1)
+              deleted: false, //Boolean Flag if comment has been 'deleted' (inaccessible by the front end), (default: false)
+              parentDeleted: false //Boolean Flag for when the the parent post was deleted, but the comment itself was not.
+            }, {
+              id: 2,
+              parentId: 1,  //String  id of the parent post
+              timestamp: 1507470842668, // Integer Time created - default data tracks this in Unix time. You can use Date.now() to get this number
+              body: "Great Article!!!" ,//String  Comment body
+              author: 'Matt Damon',  //String  Comment author
+              voteScore: 14, //Integer Net votes the comment has received (default: 1)
+              deleted: false, //Boolean Flag if comment has been 'deleted' (inaccessible by the front end), (default: false)
+              parentDeleted: false //Boolean Flag for when the the parent post was deleted, but the comment itself was not.
+            }]
         },{
             id: 2,
             timestamp: 1503570362668,
@@ -45,20 +65,40 @@ class App extends Component {
             deleted: false
         }];
     return (
-      <div className="App">
-      	<div className="App-header">
-      		<div className="App-intro">Readable Frontend</div>
-      	</div>
-      	<Jumbotron>
-      	<Row>
-	      	<Col xs={12} md={7} mdOffset={1}>
-            <PostList posts = {posts}/>
+      <div>
+        <Route exact path="/" render={() =>
+        <Jumbotron>
+        <Row>
+          <Col xs={12} md={7} mdOffset={1}>
+            <PostList showPostDetails={false}/>
             <CreatePostDialog className="pull-right"/>
           </Col>
-	      	<Col xs={8} md={3}><CategoryList /></Col>
-      	</Row>
-      	</Jumbotron>
-
+          <Col xs={8} md={3}><CategoryList /></Col>
+        </Row>
+        </Jumbotron>
+        }></Route>
+        <Route exact path="/:category/posts" render={(route) =>
+          <Jumbotron>
+          <Row>
+            <Col xs={12} md={7} mdOffset={1}>
+              <PostList category = {route.match.params.category} showPostDetails={false}/>
+              <CreatePostDialog className="pull-right"/>
+            </Col>
+            <Col xs={8} md={3}><CategoryList /></Col>
+          </Row>
+          </Jumbotron>
+        }></Route>
+        <Route exact path="/posts/:postId" render={(route) =>
+          <Jumbotron>
+            <Row>
+              <Col xs={12} md={7} mdOffset={1}>
+                <PostDetailsContainer postId={route.match.params.postId}/>
+                {/* <CreatePostDialog className="pull-right"/> */}
+              </Col>
+              <Col xs={8} md={3}><CategoryList /></Col>
+            </Row>
+          </Jumbotron>
+        }></Route>
       </div>
 
     );
