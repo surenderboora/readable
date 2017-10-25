@@ -35,9 +35,7 @@ function mapStateToProps({categories}) {
     }
 }
 function mapDispatchToProps(dispatch){
-  // This must return a plain object which will be available as functions that dispatch actions.
   return {
-    // each property must be a function that dispatch an action (mostly via action creator).
     getCategories: (data) => dispatch(listCategories(data))
   }
 }

@@ -14,5 +14,5 @@ export function timestampToDate(timestamp) {
 						'August', 'September', 'October', 'November', 'December'];
 	const shortMonthNames = monthNames.map((name) => name.substr(0,3));
 	const d = new Date(timestamp);
-	return  shortMonthNames[d.getMonth()] + ', '+ d.getDate() + ' ' + d.getFullYear()
+	return  shortMonthNames[d.getMonth()] + ' '+ d.getDate() + ', ' + d.getFullYear()
 }

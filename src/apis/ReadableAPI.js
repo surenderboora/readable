@@ -50,11 +50,12 @@ export const voteOnPost = (postId, voteOption) =>
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({option: voteOption})
-    }).then(res => res.json())
-    .then(post => {
-      post['createdOn'] = timestampToDate(post['timestamp']);
-      return post;
-    })
+  })
+  .then(res => res.json())
+  .then(post => {
+    post['createdOn'] = timestampToDate(post['timestamp']);
+    return post;
+  })
 
 export const getPostComments = (postId) =>
   fetch(`${api}/posts/${postId}/comments`, { headers })
