@@ -15,37 +15,37 @@ export const listPostComments = (comments) => {
     }
 }
 
-export const createComment = (post) => {
+export const createComment = (comment) => {
     return {
         type: ADD_COMMENT,
-        post
+        comment
     }
 }
 
-export const updateComment = (post) => {
+export const updateComment = (comment) => {
     return {
         type: UPDATE_COMMENT,
-        post
+        comment
     }
 }
 
-export const upvoteComment = (post) => {
+export const upvoteComment = (comment) => {
     return {
         type: UPVOTE_COMMENT,
-        post
+        comment
     }
 }
 
-export const downvoteComment = (post) => {
+export const downvoteComment = (comment) => {
     return {
         type: DOWNVOTE_COMMENT,
-        post
+        comment
     }
 }
 
-export const deleteComment = (postId) => {
+export const deleteComment = (commentId) => {
     return {
         type: DETETE_COMMENT,
-        postId
+        commentId
     }
 }

@@ -6,40 +6,49 @@ import * as postActions from '../actionCreators/postActionCreators'
 import {listPostComments} from '../actionCreators/commentActionCreators'
 
 class PostDetailsContainer extends Component {
-
-	componentDidMount=() => {
-		const postId = this.props.postId;
-		getPost(postId)
-			.then((data) => this.props.getPost(data))
+    state = {
+        isLoading: true
+    }
+    componentDidMount=() => {
+        const postId = this.props.postId;
+        getPost(postId)
+            .then((data) => this.props.getPost(data))
             .then(() =>
                 getPostComments(postId)
                     .then((data) => this.props.getPostComments(data))
             )
-	}
-	componentDidUpdate = (prevProps, prevState) => {
+            .then(()=>this.setState({isLoading: false}))
+    }
+    componentDidUpdate = (prevProps, prevState) => {
         const prevPostId = prevProps.postId;
         const postId = this.props.postId;
         if(prevPostId !== postId) {
             getPost(postId)
-            	.then((data) => this.props.getPost(data));
+                .then((data) => this.props.getPost(data));
             getPostComments(postId)
-				.then((data) => this.props.getPostComments(data));
+                .then((data) => this.props.getPostComments(data));
         }
     }
-	render() {
-        console.log("PostDetailsContainer props: ", this.props);
-        const postId = this.props.postId;
-		let post = this.props.posts.filter((p) => p.id == postId)[0] || {}
-		post.comments = this.props.comments.filter((c) => c.parentId == postId);
-		return (
-			<PostDetails post={post} showPostDetails={true}/>
-		);
-	}
+    render() {
+        const {post} = this.props;
+        const isLoading = this.state.isLoading;
+        return (
+            <div>
+            {isLoading && (<div>Loading ...</div>)}
+            {!isLoading &&
+            (<PostDetails post={post} showPostDetails={true}/>)}
+            </div>
+        );
+    }
 }
 
-function mapStateToProps({posts, comments}) {
-    return {posts: posts, comments: comments}
+function mapStateToProps({posts, comments}, ownProps) {
+    const postId = ownProps.postId;
+    let post = posts.find((p) => p.id == postId) || {}
+    post.comments = comments.filter((c) => c.parentId == postId);
+    return {post: post}
 }
+
 function mapDispatchToProps(dispatch){
   return {
     // each property must be a function that dispatch an action (mostly via action creator).
