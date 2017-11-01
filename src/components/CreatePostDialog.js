@@ -11,16 +11,7 @@ import { createPost } from '../apis/ReadableAPI'
 import * as PostActions from '../actionCreators/postActionCreators'
 import { getUniqueId } from '../utils'
 import { connect } from 'react-redux'
-
-function FieldGroup({ id, label, help, ...props }) {
-  return (
-    <FormGroup controlId={id}>
-      <ControlLabel>{label}</ControlLabel>
-      <FormControl {...props} />
-      {help && <HelpBlock className="has-error">{help}</HelpBlock>}
-    </FormGroup>
-  );
-}
+import {FieldGroup} from './FieldGroup'
 
 const ERROR_CONSTANTS = {
   POST_TITLE_IS_EMPTY: "Post title cannot be empty.",

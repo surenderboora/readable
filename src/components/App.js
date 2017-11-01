@@ -6,6 +6,7 @@ import PostDetailsContainer from './PostDetailsContainer'
 import {Jumbotron, Row, Col} from 'react-bootstrap';
 import CreatePostDialog from './CreatePostDialog'
 import {Route, Link} from 'react-router-dom';
+import CreateEditPost from './CreateEditPost'
 class App extends Component {
   render() {
     return (
@@ -30,7 +31,7 @@ class App extends Component {
           <Row>
             <Col xs={12} md={7} mdOffset={1}>
               <PostList showPostDetails={false}/>
-              <CreatePostDialog className="pull-right"/>
+              {/*<CreatePostDialog className="pull-right"/>*/}
             </Col>
             <Col xs={8} md={3}><CategoryList /></Col>
           </Row>
@@ -53,6 +54,34 @@ class App extends Component {
             <Col xs={8} md={3}><CategoryList /></Col>
           </Row>
         }></Route>
+        <Route exact path="/posts/:postId/edit" render={(route) =>
+          <Row>
+            <Col xs={12} md={7} mdOffset={1}>
+              <CreateEditPost postId={route.match.params.postId}
+                isEdit={true}
+                onUpdatePost={() =>
+                  route.history.goBack()
+                }
+              />
+            </Col>
+            <Col xs={8} md={3}><CategoryList /></Col>
+          </Row>
+        }>
+        </Route>
+        <Route exact path="/newpost" render={(route) =>
+          <Row>
+            <Col xs={12} md={7} mdOffset={1}>
+              <CreateEditPost postId={route.match.params.postId}
+                isEdit={false}
+                onUpdatePost={() =>
+                  route.history.goBack()
+                }
+              />
+            </Col>
+            <Col xs={8} md={3}><CategoryList /></Col>
+          </Row>
+        }>
+        </Route>
       </div>
 
     );

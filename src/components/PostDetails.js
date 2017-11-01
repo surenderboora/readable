@@ -36,14 +36,14 @@ class PostDetails extends Component {
   }
   render() {
     const {post, showPostDetails} = this.props;
-    console.log("Post details props post is ",  post);
+    //console.log("Post details props post is ",  post);
     const { showCommentDialog } = this.state;
     return (
       <div className="panel panel-default">
         <div className="panel-body">
           <section className="post-heading">
             <div className="row">
-              <div className="col-md-11">
+              <div className="col-md-10">
                 <div className="media">
                   <div className="media-body">
                     <Link to={`/posts/${post.id}`} className="anchor-username">
@@ -52,10 +52,16 @@ class PostDetails extends Component {
                   </div>
                 </div>
               </div>
-              <div className="col-md-1">
-                <a href="#" onClick={(e) => this.onPostDelete(e, post)}>
-                  <i className="glyphicon glyphicon-trash"></i>
-                </a>
+              <div className="col-md-2">
+                <div className="pull-right">
+                  <a href="#" onClick={(e) => this.onPostDelete(e, post)}>
+                    <i className="glyphicon glyphicon-trash"></i>
+                  </a>
+                  <span className="ph4">|</span>
+                  <Link to={`/posts/${post.id}/edit`}>
+                    <i className="glyphicon glyphicon-edit"></i>
+                  </Link>
+                </div>
               </div>
             </div>
           </section>
@@ -70,11 +76,11 @@ class PostDetails extends Component {
                   {!showPostDetails && (<li> {post.comments ? `${post.comments.length} Comments`: '0 Comments'} </li>)}
                   <li>
                     <a href="#" onClick={(e) => this.onPostDownvote(e, post)}>
-                      <i className="glyphicon glyphicon-thumbs-down"></i>&nbsp;
+                      <i className="glyphicon glyphicon-thumbs-down"></i>
                     </a>
-                    {post.voteScore}
+                    <span className="ph4">{post.voteScore}</span>
                     <a href="#" onClick={(e) => this.onPostUpvote(e, post)}>
-                      &nbsp;<i className="glyphicon glyphicon-thumbs-up"></i>
+                      <i className="glyphicon glyphicon-thumbs-up"></i>
                     </a>
                   </li>
                   {
@@ -102,7 +108,7 @@ class PostDetails extends Component {
                     hideModal={this.hideCreateCommentModal}/>
                  </div>
                  {post.comments && post.comments.map((comment) => (
-                    <Comment comment={comment}/>
+                    <Comment key={comment.id} comment={comment}/>
                  ))}
                 </div>)
               }

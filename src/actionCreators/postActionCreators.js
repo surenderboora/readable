@@ -4,7 +4,8 @@ import {
     ADD_POST,
     UPVOTE_POST,
     DOWNVOTE_POST,
-    DETETE_POST
+    DETETE_POST,
+    UPDATE_POST
 } from '../actions'
 
 
@@ -47,5 +48,12 @@ export const removePost = (postId) => {
     return {
         type: DETETE_POST,
         postId
+    }
+}
+
+export const updatePost = (post) => {
+    return {
+        type: UPDATE_POST,
+        post
     }
 }

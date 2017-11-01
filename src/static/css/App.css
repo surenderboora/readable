@@ -97,3 +97,10 @@ body{
 .help-block.has-error{
   color: #a94442;
 }
+.ph4{
+  padding-right: 4px;
+  padding-left: 4px;
+}
+.post-list-header{
+  padding-left: 15px;
+}

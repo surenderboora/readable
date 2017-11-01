@@ -11,16 +11,8 @@ import { createComment } from '../apis/ReadableAPI'
 import * as CommentActions from '../actionCreators/commentActionCreators'
 import { getUniqueId } from '../utils'
 import { connect } from 'react-redux'
+import {FieldGroup} from './FieldGroup'
 
-function FieldGroup({ id, label, help, ...props }) {
-  return (
-    <FormGroup controlId={id}>
-      <ControlLabel>{label}</ControlLabel>
-      <FormControl {...props} />
-      {help && <HelpBlock>{help}</HelpBlock>}
-    </FormGroup>
-  );
-}
 class CreateCommentDialog extends Component {
   state = {
     comment: {

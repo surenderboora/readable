@@ -25,7 +25,7 @@ class Comment extends Component {
   }
   render() {
     const {comment} = this.props;
-    console.log("Comment props - ",  this.props);
+    // console.log("Comment props - ",  this.props);
     return (
       <div className="comment">
         <div className="media">

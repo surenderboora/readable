@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { getPosts, getPostComments } from '../apis/ReadableAPI'
 import { listPosts } from '../actionCreators/postActionCreators'
 import { listPostComments } from '../actionCreators/commentActionCreators'
+import {Link} from 'react-router-dom'
 class PostList extends Component {
     state = {
         'sortedOn': 'voteScore',
@@ -57,7 +58,7 @@ class PostList extends Component {
         let { sortOrder, sortedOn } = this.state;
         let {posts} = this.props;
         let {showPostDetails} = this.props;
-        console.log("PostList props are : ", this.props)
+        //console.log("PostList props are : ", this.props)
         posts = posts.sort(dynamicSort(sortedOn, sortOrder));
         const {comments} = this.props;
         posts.forEach((post) => {
@@ -67,6 +68,15 @@ class PostList extends Component {
         const defaultSortOrder = 'desc';
         return (
             <div>
+                <div className="post-list-header">
+                    <h4 className="post-list-header-label pull-left">
+                        Post List
+                    </h4>
+                    <div className="post-list-header-button pull-right">
+                        <Link to="/newpost" className="btn btn-primary">Create Post</Link>
+                    </div>
+                    <div className="clearfix"/>
+                </div>
                 {posts.map((post) => (
                 <PostDetails key={post.id} post={post} showPostDetails={showPostDetails}/>
                 ))}
