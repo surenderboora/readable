@@ -8,62 +8,6 @@ import CreatePostDialog from './CreatePostDialog'
 import {Route, Link} from 'react-router-dom';
 class App extends Component {
   render() {
-    const posts = [{
-            id: 1,
-            timestamp: 1507470662668,
-            title: 'React 16 is out now!',
-            body: 'React 16 is out now!',
-            author: 'Surender',
-            category: 'react',
-            voteScore: 25,
-            deleted: false,
-            comments:[{
-              id: 1,
-              parentId:1,  //String  id of the parent post
-              timestamp: 1507470772668, // Integer Time created - default data tracks this in Unix time. You can use Date.now() to get this number
-              body: "Great Article!! Keep Posting!!" ,//String  Comment body
-              author: 'Charlie',  //String  Comment author
-              voteScore: 4, //Integer Net votes the comment has received (default: 1)
-              deleted: false, //Boolean Flag if comment has been 'deleted' (inaccessible by the front end), (default: false)
-              parentDeleted: false //Boolean Flag for when the the parent post was deleted, but the comment itself was not.
-            }, {
-              id: 2,
-              parentId: 1,  //String  id of the parent post
-              timestamp: 1507470842668, // Integer Time created - default data tracks this in Unix time. You can use Date.now() to get this number
-              body: "Great Article!!!" ,//String  Comment body
-              author: 'Matt Damon',  //String  Comment author
-              voteScore: 14, //Integer Net votes the comment has received (default: 1)
-              deleted: false, //Boolean Flag if comment has been 'deleted' (inaccessible by the front end), (default: false)
-              parentDeleted: false //Boolean Flag for when the the parent post was deleted, but the comment itself was not.
-            }]
-        },{
-            id: 2,
-            timestamp: 1503570362668,
-            title: 'React 15 is out now!',
-            body: 'React 15 is out now!',
-            author: 'Surender',
-            category: 'react',
-            voteScore: 15,
-            deleted: false
-        },{
-            id: 3,
-            timestamp: 1504770342668,
-            title: 'React 12 is out now!',
-            body: 'React 12 is out now!',
-            author: 'Surender',
-            category: 'react',
-            voteScore: 18,
-            deleted: false
-        },{
-            id: 4,
-            timestamp: 1501070342668,
-            title: 'Redux is awesome!',
-            body: 'Redux is awesome!',
-            author: 'Surender',
-            category: 'redux',
-            voteScore: 22,
-            deleted: false
-        }];
     return (
       <div>
         <Route path="/" render={() =>

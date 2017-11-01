@@ -55,6 +55,7 @@ class CreatePostDialog extends Component {
   hideModal= () => {
     this.setState({show: false});
   }
+
   validatePost = (post) => {
     post.title = post.title.trim();
     post.body = post.body.trim();
@@ -176,16 +177,16 @@ class CreatePostDialog extends Component {
                 help={titleHelp}
                 onChange={(e) => onTitleChange(e)}
               />
-              <FormGroup controlId="formControlsTextarea">
-                <ControlLabel>Body</ControlLabel>
-                <FormControl
-                  componentClass="textarea"
-                  placeholder="Post body"
-                  value ={post.body}
-                  help={bodyHelp}
-                  onChange={(e) => onBodyChange(e)}/>
-                {bodyHelp && <HelpBlock className="has-error">{bodyHelp}</HelpBlock>}
-              </FormGroup>
+              <FieldGroup
+                id="formControlsTextarea"
+                type="textarea"
+                label="Body"
+                placeholder="Post body"
+                value = {post.body}
+                help={bodyHelp}
+                onChange={(e) => onBodyChange(e)}
+                componentClass="textarea"
+              />
               <FieldGroup
                 id="formControlsPassword"
                 label="Author"
