@@ -101,6 +101,6 @@ body{
   padding-right: 4px;
   padding-left: 4px;
 }
-.post-list-header{
+.post-list-header, .post-list-empty-container{
   padding-left: 15px;
 }

@@ -28,35 +28,42 @@ class App extends Component {
           </div>
         }></Route>
         <Route exact path="/" render={() =>
+          <div className="container">
           <Row>
-            <Col xs={12} md={7} mdOffset={1}>
+            <Col xs={9} md={9}>
               <PostList showPostDetails={false}/>
               {/*<CreatePostDialog className="pull-right"/>*/}
             </Col>
-            <Col xs={8} md={3}><CategoryList /></Col>
+            <Col xs={3} md={3}><CategoryList /></Col>
           </Row>
+          </div>
         }></Route>
         <Route exact path="/:category/posts" render={(route) =>
+          <div className="container">
           <Row>
-            <Col xs={12} md={7} mdOffset={1}>
+            <Col xs={9} md={9}>
               <PostList category = {route.match.params.category} showPostDetails={false}/>
               {/* <CreatePostDialog className="pull-right" isEdit={false}/> */}
             </Col>
-            <Col xs={8} md={3}><CategoryList /></Col>
+            <Col xs={3} md={3}><CategoryList /></Col>
           </Row>
+          </div>
         }></Route>
         <Route exact path="/posts/:postId" render={(route) =>
+          <div className="container">
           <Row>
-            <Col xs={12} md={7} mdOffset={1}>
+            <Col xs={9} md={9}>
               <PostDetailsContainer postId={route.match.params.postId}/>
               {/* <CreatePostDialog className="pull-right"/> */}
             </Col>
-            <Col xs={8} md={3}><CategoryList /></Col>
+            <Col xs={3} md={3}><CategoryList /></Col>
           </Row>
+          </div>
         }></Route>
         <Route exact path="/posts/:postId/edit" render={(route) =>
+          <div className="container">
           <Row>
-            <Col xs={12} md={7} mdOffset={1}>
+            <Col xs={9} md={9}>
               <CreateEditPost postId={route.match.params.postId}
                 isEdit={true}
                 onUpdatePost={() =>
@@ -64,13 +71,15 @@ class App extends Component {
                 }
               />
             </Col>
-            <Col xs={8} md={3}><CategoryList /></Col>
+            <Col xs={3} md={3}><CategoryList /></Col>
           </Row>
+          </div>
         }>
         </Route>
         <Route exact path="/newpost" render={(route) =>
+          <div className="container">
           <Row>
-            <Col xs={12} md={7} mdOffset={1}>
+            <Col xs={9} md={9}>
               <CreateEditPost postId={route.match.params.postId}
                 isEdit={false}
                 onUpdatePost={() =>
@@ -78,8 +87,9 @@ class App extends Component {
                 }
               />
             </Col>
-            <Col xs={8} md={3}><CategoryList /></Col>
+            <Col xs={3} md={3}><CategoryList /></Col>
           </Row>
+          </div>
         }>
         </Route>
       </div>

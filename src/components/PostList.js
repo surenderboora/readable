@@ -77,7 +77,8 @@ class PostList extends Component {
                     </div>
                     <div className="clearfix"/>
                 </div>
-                {posts.map((post) => (
+                {posts.length === 0 && <div className="post-list-empty-container"> No Posts found. Go ahead and create one now.</div>}
+                {posts.length > 0 && posts.map((post) => (
                 <PostDetails key={post.id} post={post} showPostDetails={showPostDetails}/>
                 ))}
             </div>
