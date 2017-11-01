@@ -45,7 +45,6 @@ class PostDetailsContainer extends Component {
 function mapStateToProps({posts, comments}, ownProps) {
     const postId = ownProps.postId;
     let post = posts.find((p) => p.id == postId) || {}
-    post.comments = comments.filter((c) => c.parentId == postId);
     return {post: post}
 }
 

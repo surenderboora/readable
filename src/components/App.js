@@ -95,7 +95,7 @@ class App extends Component {
           <Row>
             <Col xs={12} md={7} mdOffset={1}>
               <PostList category = {route.match.params.category} showPostDetails={false}/>
-              <CreatePostDialog className="pull-right"/>
+              {/* <CreatePostDialog className="pull-right" isEdit={false}/> */}
             </Col>
             <Col xs={8} md={3}><CategoryList /></Col>
           </Row>

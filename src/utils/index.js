@@ -16,3 +16,12 @@ export function timestampToDate(timestamp) {
 	const d = new Date(timestamp);
 	return  shortMonthNames[d.getMonth()] + ' '+ d.getDate() + ', ' + d.getFullYear()
 }
+
+export function getUniqueId() {
+  let id = '';
+  for (let i = 0; i < 20; i++) {
+    let index = parseInt(Math.random() * 1000000) % 36;
+    id += 'abcdefghijklmnopqrstuvwxyz0123456789'[index]
+  }
+  return id
+}

@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
-import Comment from './Comment'
+import Comment from './Comment';
+import CreateCommentDialog from './CreateCommentDialog'
 import { Link } from 'react-router-dom';
-import { voteOnPost } from '../apis/ReadableAPI'
-import { connect } from 'react-redux'
+import { voteOnPost, deletePost } from '../apis/ReadableAPI';
+import { connect } from 'react-redux';
 import {
   upvotePost,
-  downvotePost
-} from '../actionCreators/postActionCreators'
-
+  downvotePost,
+  removePost
+} from '../actionCreators/postActionCreators';
+import {dynamicSort} from '../utils'
 class PostDetails extends Component {
+  state = {
+    showCommentDialog : false
+  }
   onPostUpvote = (e, post) => {
     e.preventDefault();
     voteOnPost(post.id, 'upVote').then(post => this.props.upvotePost(post));
@@ -17,8 +22,22 @@ class PostDetails extends Component {
     e.preventDefault();
     voteOnPost(post.id, 'downVote').then(post => this.props.downvotePost(post));
   }
+  onPostDelete = (e, post) => {
+    e.preventDefault();
+    deletePost(post.id).then((post)=> this.props.removePost(post.id));
+  }
+  showCreateCommentModal = (e) => {
+    e.preventDefault();
+    this.setState({showCommentDialog: true});
+  }
+  hideCreateCommentModal= (e) => {
+    e && e.preventDefault();
+    this.setState({showCommentDialog: false});
+  }
   render() {
     const {post, showPostDetails} = this.props;
+    console.log("Post details props post is ",  post);
+    const { showCommentDialog } = this.state;
     return (
       <div className="panel panel-default">
         <div className="panel-body">
@@ -34,8 +53,8 @@ class PostDetails extends Component {
                 </div>
               </div>
               <div className="col-md-1">
-                <a href="#">
-                  <i className="glyphicon glyphicon-chevron-down"></i>
+                <a href="#" onClick={(e) => this.onPostDelete(e, post)}>
+                  <i className="glyphicon glyphicon-trash"></i>
                 </a>
               </div>
             </div>
@@ -58,17 +77,32 @@ class PostDetails extends Component {
                       &nbsp;<i className="glyphicon glyphicon-thumbs-up"></i>
                     </a>
                   </li>
-                  {showPostDetails && (<li><a href="#"><i className="glyphicon glyphicon-comment"></i> Comment</a></li>)}
+                  {
+                    showPostDetails &&
+                    (
+                      <li>
+                        <a href="#" onClick={(e)=> this.showCreateCommentModal(e)}>
+                          <i className="glyphicon glyphicon-comment"></i>
+                          Comment
+                        </a>
+                      </li>
+                    )
+                  }
                 </ul>
               </div>
               {
                 showPostDetails &&
                 (<div className="post-footer-comment-wrapper">
                  <div className="comment-form">
-
+                  <CreateCommentDialog
+                    postId={post.id}
+                    isEdit={false}
+                    show={showCommentDialog}
+                    showModal={this.showCreateCommentModal}
+                    hideModal={this.hideCreateCommentModal}/>
                  </div>
                  {post.comments && post.comments.map((comment) => (
-                 <Comment comment={comment}/>
+                    <Comment comment={comment}/>
                  ))}
                 </div>)
               }
@@ -79,10 +113,12 @@ class PostDetails extends Component {
   }
 }
 
-function mapStateToProps({posts}, ownProps) {
+function mapStateToProps({posts, comments}, ownProps) {
   const postId = ownProps.post.id;
-  const post = posts.find((p) => p.id == postId);
-  console.log("In Post details mapStateToProps :posts", posts, post)
+  let post = posts.find((p) => p.id === postId);
+  let post_comments = comments ? comments.filter((c) => c.parentId === postId) : [];
+  post_comments.sort(dynamicSort('voteScore', 'desc'))
+  post.comments = post_comments;
   return {post}
 }
 
@@ -90,6 +126,7 @@ function mapDispatchToProps(dispatch){
   return {
     upvotePost: (data) => dispatch(upvotePost(data)),
     downvotePost: (data) => dispatch(downvotePost(data)),
+    removePost: (data) => dispatch(removePost(data))
   }
 }
 

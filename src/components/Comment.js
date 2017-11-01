@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { voteOnComment } from '../apis/ReadableAPI'
+import { voteOnComment, deleteComment } from '../apis/ReadableAPI'
 import {
   upvoteComment,
-  downvoteComment
+  downvoteComment,
+  removeComment
 } from '../actionCreators/commentActionCreators'
 import {connect} from 'react-redux'
 
@@ -17,17 +18,30 @@ class Comment extends Component {
     voteOnComment(comment.id, 'downVote')
       .then((data) => this.props.downvoteComment(data));
   }
+  onCommentDelete = (e, comment) => {
+    e.preventDefault();
+    deleteComment(comment.id)
+      .then((comment) => this.props.deleteComment(comment.id, comment.parentId));
+  }
   render() {
     const {comment} = this.props;
+    console.log("Comment props - ",  this.props);
     return (
       <div className="comment">
         <div className="media">
+          <div className="col-md-11">
           <div className="author">
             {comment.author}
           </div>
           <div className="comment-body">
             <div>{comment.body}</div>
             <span className="anchor-time">{comment.createdOn}</span>
+          </div>
+          </div>
+          <div className="col-md-1">
+            <a href="#" onClick={(e) => this.onCommentDelete(e, comment)}>
+              <i className="glyphicon glyphicon-trash"></i>
+            </a>
           </div>
         </div>
         <section className="comment-footer">
@@ -50,17 +64,18 @@ class Comment extends Component {
   }
 }
 function mapStateToProps({comments}, ownProps) {
-    const { comment } = ownProps;
-    const updatedComment = comments.find((c) => c.id == comment.id);
-    return {
-      comment: updatedComment
-    }
+  const { comment } = ownProps;
+  const updatedComment = comments.find((c) => c.id == comment.id);
+  return {
+    comment: updatedComment
+  }
 }
 function mapDispatchToProps(dispatch){
   return {
     // each property must be a function that dispatch an action (mostly via action creator).
     upvoteComment: (data) => dispatch(upvoteComment(data)),
     downvoteComment: (data) => dispatch(downvoteComment(data)),
+    deleteComment: (commentId, postId) => dispatch(removeComment(commentId, postId)),
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Comment);

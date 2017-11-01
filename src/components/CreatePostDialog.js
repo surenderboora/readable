@@ -7,19 +7,45 @@ import {
   FormGroup,
   HelpBlock,
   Modal } from 'react-bootstrap';
+import { createPost } from '../apis/ReadableAPI'
+import * as PostActions from '../actionCreators/postActionCreators'
+import { getUniqueId } from '../utils'
+import { connect } from 'react-redux'
 
 function FieldGroup({ id, label, help, ...props }) {
   return (
     <FormGroup controlId={id}>
       <ControlLabel>{label}</ControlLabel>
       <FormControl {...props} />
-      {help && <HelpBlock>{help}</HelpBlock>}
+      {help && <HelpBlock className="has-error">{help}</HelpBlock>}
     </FormGroup>
   );
 }
+
+const ERROR_CONSTANTS = {
+  POST_TITLE_IS_EMPTY: "Post title cannot be empty.",
+  POST_BODY_IS_EMPTY: "Post body cannot be empty.",
+  AUTHOR_IS_EMPTY: "Author cannot be empty.",
+  CATEGORY_NOT_SELECTED: "Please specify a category."
+}
+
 class CreatePostDialog extends Component {
   state = {
-    show: false
+    show: false,
+    titleHelp:"",
+    bodyHelp:"",
+    authorHelp: "",
+    categoryHelp: "",
+    post: {
+      id: '',
+      timestamp: 0,
+      title: '',
+      body: '',
+      author: '',
+      category: '',
+      voteScore: 1,
+      deleted: false
+    }
   }
 
   showModal = () => {
@@ -29,11 +55,101 @@ class CreatePostDialog extends Component {
   hideModal= () => {
     this.setState({show: false});
   }
-
+  validatePost = (post) => {
+    post.title = post.title.trim();
+    post.body = post.body.trim();
+    post.author = post.author.trim();
+    post.category = post.category.trim();
+    let isValid = true;
+    if(!post.title){
+      isValid = false;
+      this.setState({
+        titleHelp: ERROR_CONSTANTS.POST_TITLE_IS_EMPTY
+      })
+    }
+    if(!post.body){
+      isValid = false;
+      this.setState({
+        bodyHelp: ERROR_CONSTANTS.POST_BODY_IS_EMPTY
+      })
+    }
+    if(!post.author){
+      isValid = false;
+      this.setState({
+        authorHelp: ERROR_CONSTANTS.AUTHOR_IS_EMPTY
+      })
+    }
+    if(!post.category){
+      isValid = false;
+      this.setState({
+        categoryHelp: ERROR_CONSTANTS.CATEGORY_NOT_SELECTED
+      })
+    }
+    return isValid;
+  }
   createPost = () => {
-
+    let post = this.state.post;
+    post.timestamp = Date.now();
+    post.id = getUniqueId();
+    if(this.validatePost(post)) {
+      createPost(post)
+        .then((post)=> this.props.createPost(post))
+        .then(() => this.hideModal());
+    }
+  }
+  onTitleChange = (e) => {
+    const inputValue = e.target.value;
+    const isValid = inputValue !== '';
+    this.setState((prevState) => {
+      let newState = {
+        post: prevState.post
+      };
+      newState.post.title = inputValue;
+      let titleHelp = isValid ? "": ERROR_CONSTANTS.POST_TITLE_IS_EMPTY;
+      return {...newState, titleHelp};
+    });
+  }
+  onBodyChange = (e) => {
+    const inputValue = e.target.value;
+    const isValid = inputValue !== '';
+    this.setState((prevState) => {
+      let newState = {
+        post: prevState.post
+      };
+      newState.post.body = inputValue;
+      let bodyHelp = isValid ? "": ERROR_CONSTANTS.POST_BODY_IS_EMPTY;
+      return {...newState, bodyHelp};
+    });
+  }
+  onAuthorChange = (e) => {
+    const inputValue = e.target.value;
+    const isValid = inputValue !== '';
+    this.setState((prevState) => {
+      let newState = {
+        post: prevState.post
+      };
+      newState.post.author = inputValue;
+      let authorHelp = isValid ? "": ERROR_CONSTANTS.AUTHOR_IS_EMPTY;
+      return {...newState, authorHelp};
+    });
+  }
+  onCategoryChange = (e) => {
+    const inputValue = e.target.value;
+    const isValid = inputValue !== '';
+    this.setState((prevState) => {
+      let newState = {
+        post: prevState.post
+      };
+      newState.post.category = inputValue;
+      let categoryHelp = isValid ? "": ERROR_CONSTANTS.CATEGORY_NOT_SELECTED;
+      return {...newState, categoryHelp};
+    });
   }
   render() {
+    const post = this.state.post;
+    const onTitleChange = this.onTitleChange, onBodyChange = this.onBodyChange, onAuthorChange = this.onAuthorChange, onCategoryChange = this.onCategoryChange;
+    const categories = this.props.categories;
+    const { titleHelp, bodyHelp, authorHelp, categoryHelp } = this.state;
     return (
       <ButtonToolbar>
         <Button bsStyle="primary" onClick={this.showModal}>
@@ -56,24 +172,42 @@ class CreatePostDialog extends Component {
                 type="text"
                 label="Title"
                 placeholder="Post title"
+                value = {post.title}
+                help={titleHelp}
+                onChange={(e) => onTitleChange(e)}
               />
               <FormGroup controlId="formControlsTextarea">
                 <ControlLabel>Body</ControlLabel>
-                <FormControl componentClass="textarea" placeholder="Post body" />
+                <FormControl
+                  componentClass="textarea"
+                  placeholder="Post body"
+                  value ={post.body}
+                  help={bodyHelp}
+                  onChange={(e) => onBodyChange(e)}/>
+                {bodyHelp && <HelpBlock className="has-error">{bodyHelp}</HelpBlock>}
               </FormGroup>
               <FieldGroup
                 id="formControlsPassword"
                 label="Author"
                 type="text"
                 placeholder="Your name"
+                value ={post.author}
+                help={authorHelp}
+                onChange={(e) => onAuthorChange(e)}
               />
               <FormGroup controlId="formControlsSelect">
                 <ControlLabel>Category</ControlLabel>
-                <FormControl componentClass="select" placeholder="select">
-                  <option value="select">select</option>
-                  <option value="react">React</option>
-                  <option value="redux">Redux</option>
+                <FormControl
+                  componentClass="select"
+                  placeholder="select"
+                  value={post.category.name}
+                  onChange={(e) => onCategoryChange(e)}>
+                  <option value=''>Select Category</option>
+                  {categories.map((category) =>
+                    <option value={category.id}>{category.name}</option>
+                    )}
                 </FormControl>
+                {categoryHelp && <HelpBlock className="has-error">{categoryHelp}</HelpBlock>}
               </FormGroup>
             </form>
           </Modal.Body>
@@ -86,4 +220,12 @@ class CreatePostDialog extends Component {
     );
   }
 }
-export default CreatePostDialog;
+function mapStateToProps({categories}) {
+  return {categories}
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    createPost: (post) => dispatch(PostActions.createPost(post))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePostDialog);

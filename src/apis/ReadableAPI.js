@@ -57,6 +57,20 @@ export const voteOnPost = (postId, voteOption) =>
     return post;
   })
 
+export const deletePost = (postId) =>
+  fetch(`${api}/posts/${postId}`, {
+    method: 'DELETE',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(res => res.json())
+  .then(post => {
+    post['createdOn'] = timestampToDate(post['timestamp']);
+    return post;
+  })
+
 export const getPostComments = (postId) =>
   fetch(`${api}/posts/${postId}/comments`, { headers })
     .then(res => res.json())
@@ -75,7 +89,12 @@ export const createComment = (comment) =>
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(comment)
-  }).then(res => res.json())
+  })
+  .then(res => res.json())
+  .then(comment => {
+      comment['createdOn'] = timestampToDate(comment['timestamp']);
+      return comment;
+  })
 
 export const voteOnComment = (commentId, voteOption) =>
   fetch(`${api}/comments/${commentId}`, {
@@ -90,3 +109,17 @@ export const voteOnComment = (commentId, voteOption) =>
       comment['createdOn'] = timestampToDate(comment['timestamp']);
       return comment;
     })
+
+export const deleteComment = (commentId) =>
+  fetch(`${api}/comments/${commentId}`, {
+    method: 'DELETE',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(res => res.json())
+  .then(comment => {
+    comment['createdOn'] = timestampToDate(comment['timestamp']);
+    return comment;
+  })

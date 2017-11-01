@@ -23,28 +23,28 @@ export function comments(state = [], action) {
             ]
         case UPDATE_COMMENT:
             comment = action.comment;
-            comments = state.filter((c) => c.id != comment.id)
+            comments = state.filter((c) => c.id !== comment.id)
             return [
                 ...comments,
                 comment
             ]
         case UPVOTE_COMMENT:
             comment = action.comment;
-            comments = state.filter((c) => c.id != comment.id)
+            comments = state.filter((c) => c.id !== comment.id)
             return [
                 ...comments,
                 comment
             ]
         case DOWNVOTE_COMMENT:
             comment = action.comment
-            comments = state.filter((c) => c.id != comment.id)
+            comments = state.filter((c) => c.id !== comment.id)
             return [
                 ...comments,
                 comment
             ]
         case DETETE_COMMENT:
             const {commentId} = action
-            comments = state.filter((comment) => comment.id != commentId);
+            comments = state.filter((comment) => comment.id !== commentId);
             return comments
         default:
             return state;

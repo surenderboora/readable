@@ -43,7 +43,7 @@ export const downvotePost = (post) => {
     }
 }
 
-export const deletePost = (postId) => {
+export const removePost = (postId) => {
     return {
         type: DETETE_POST,
         postId

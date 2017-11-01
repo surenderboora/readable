@@ -43,9 +43,10 @@ export const downvoteComment = (comment) => {
     }
 }
 
-export const deleteComment = (commentId) => {
+export const removeComment = (commentId, postId) => {
     return {
         type: DETETE_COMMENT,
-        commentId
+        commentId,
+        postId
     }
 }
