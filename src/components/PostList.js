@@ -8,6 +8,11 @@ import { getPosts, getPostComments } from '../apis/ReadableAPI'
 import { listPosts } from '../actionCreators/postActionCreators'
 import { listPostComments } from '../actionCreators/commentActionCreators'
 import {Link} from 'react-router-dom'
+
+const sortableFields = ['voteScore', 'timestamp'];
+const sortableFieldLabels = ['Vote Score', 'Created Time'];
+const sortOrders = ['desc', 'asc'];
+
 class PostList extends Component {
     state = {
         'sortedOn': 'voteScore',
@@ -29,6 +34,19 @@ class PostList extends Component {
                     )
                 }
             });
+        let { sortOrder, sortedOn } = this.state;
+        if (sortableFields.indexOf(sortedOn) < 0) {
+            sortedOn = sortableFields[0];
+            this.setState({
+                sortedOn
+            })
+        }
+        if (sortOrders.indexOf(sortOrder) < 0) {
+            sortOrder = sortOrders[0];
+            this.setState({
+                sortOrder
+            })
+        }
     }
     componentDidUpdate = (prevProps, prevState) => {
         const prevCategory = prevProps.category;
@@ -47,8 +65,9 @@ class PostList extends Component {
                 });
         }
     }
-    onSortClick = (sortedOn, sortOrder) => {
-        let columnSortOrder = sortOrder === 'asc' ? 'desc': 'asc';
+    onSortClick = (e, sortedOn, sortOrder) => {
+        e.preventDefault();
+        let columnSortOrder = sortOrder;
         this.setState(() => ({
             sortedOn: sortedOn,
             sortOrder: columnSortOrder
@@ -58,20 +77,46 @@ class PostList extends Component {
         let { sortOrder, sortedOn } = this.state;
         let {posts} = this.props;
         let {showPostDetails} = this.props;
-        //console.log("PostList props are : ", this.props)
         posts = posts.sort(dynamicSort(sortedOn, sortOrder));
         const {comments} = this.props;
         posts.forEach((post) => {
             post['createdOn'] = timestampToDate(post['timestamp']);
             post.comments = comments.filter((c) => c.parentId == post.id);
         })
-        const defaultSortOrder = 'desc';
+        let sortFields = sortableFields.map((field, index) => {
+            let fieldObj = {
+                value: field,
+                label: sortableFieldLabels[index],
+                classes: ['sortable'],
+                nextSortOrder: 'desc'
+            }
+            if (field === sortedOn) {
+                fieldObj.classes.push('active')
+                fieldObj.classes.push(sortOrder)
+                fieldObj.nextSortOrder = sortOrder === 'desc'? 'asc':'desc'
+            }
+            return fieldObj;
+        })
         return (
             <div>
                 <div className="post-list-header">
-                    <h4 className="post-list-header-label pull-left">
-                        Post List
+                    <div className="pull-left">
+                    <h4 className="post-list-header-label">
+                        Post List -
                     </h4>
+                    </div>
+                    <div className="sort-container pull-left">
+
+                        <span>Sort By:</span>
+                        {sortFields.map((field) =>
+                            (
+                            <span key={field.label}
+                                className={field.classes.join(' ')}
+                                onClick={(e) => this.onSortClick(e, field.value, field.nextSortOrder)}>{field.label}</span>
+                            )
+                        )}
+
+                    </div>
                     <div className="post-list-header-button pull-right">
                         <Link to="/newpost" className="btn btn-primary">Create Post</Link>
                     </div>
