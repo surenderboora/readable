@@ -6,7 +6,8 @@ import {
     DOWNVOTE_POST,
     DETETE_POST,
     ADD_COMMENT,
-    DETETE_COMMENT
+    DETETE_COMMENT,
+    GET_POST_COMMENTS
  } from '../actions'
 
 export function posts(state = [], action) {
@@ -48,6 +49,20 @@ export function posts(state = [], action) {
                     comments: post_comments
                 }
             return [...posts, newPost]
+        case GET_POST_COMMENTS:
+            postId = action.postId
+            const comments = action.comments
+            posts = state.filter((post) => post.id !== postId)
+            post = state.find((post) => post.id === postId)
+            console.log("GET_POST_COMMENTS", posts)
+            console.log("GET_POST_COMMENTS", post)
+            console.log("GET_POST_COMMENTS", comments)
+            const currentPost = {
+                    ...post,
+                    comments: [...comments]
+                }
+            console.log("GET_POST_COMMENTS", currentPost)
+            return [...posts, currentPost]
         default:
             return state;
     }

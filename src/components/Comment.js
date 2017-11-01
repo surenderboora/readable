@@ -6,8 +6,12 @@ import {
   removeComment
 } from '../actionCreators/commentActionCreators'
 import {connect} from 'react-redux'
+import EditCommentDialog from './EditCommentDialog'
 
 class Comment extends Component {
+  state = {
+    isEditing: false
+  }
   onCommentUpvote = (e, comment) => {
     e.preventDefault();
     voteOnComment(comment.id, 'upVote')
@@ -23,13 +27,21 @@ class Comment extends Component {
     deleteComment(comment.id)
       .then((comment) => this.props.deleteComment(comment.id, comment.parentId));
   }
+  onCommentEdit = (e, comment) => {
+    e.preventDefault();
+    this.setState({isEditing: true})
+  }
+  hideCommentEditDialog = () => {
+    this.setState({isEditing: false})
+  }
   render() {
     const {comment} = this.props;
+    const {isEditing} = this.state;
     // console.log("Comment props - ",  this.props);
     return (
       <div className="comment">
-        <div className="media">
-          <div className="col-md-11">
+        <div className="row">
+          <div className="col-md-10">
           <div className="author">
             {comment.author}
           </div>
@@ -38,10 +50,17 @@ class Comment extends Component {
             <span className="anchor-time">{comment.createdOn}</span>
           </div>
           </div>
-          <div className="col-md-1">
+          <div className="col-md-2">
+            <div className="pull-right">
             <a href="#" onClick={(e) => this.onCommentDelete(e, comment)}>
               <i className="glyphicon glyphicon-trash"></i>
             </a>
+            <span className="ph4">|</span>
+            <a href="#" onClick={(e) => this.onCommentEdit(e, comment)}>
+              <i className="glyphicon glyphicon-edit"></i>
+            </a>
+            </div>
+            {isEditing && <EditCommentDialog comment={comment} show={true} hideModal={this.hideCommentEditDialog}/>}
           </div>
         </div>
         <section className="comment-footer">

@@ -15,7 +15,7 @@ class PostDetailsContainer extends Component {
             .then((data) => this.props.getPost(data))
             .then(() =>
                 getPostComments(postId)
-                    .then((data) => this.props.getPostComments(data))
+                    .then((data) => this.props.getPostComments(data, postId))
             )
             .then(()=>this.setState({isLoading: false}))
     }
@@ -26,7 +26,7 @@ class PostDetailsContainer extends Component {
             getPost(postId)
                 .then((data) => this.props.getPost(data));
             getPostComments(postId)
-                .then((data) => this.props.getPostComments(data));
+                .then((data) => this.props.getPostComments(data, postId));
         }
     }
     render() {
@@ -52,7 +52,7 @@ function mapDispatchToProps(dispatch){
   return {
     // each property must be a function that dispatch an action (mostly via action creator).
     getPost: (data) => dispatch(postActions.getPost(data)),
-    getPostComments: (data) => dispatch(listPostComments(data))
+    getPostComments: (comments, postId) => dispatch(listPostComments(comments, postId))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PostDetailsContainer);

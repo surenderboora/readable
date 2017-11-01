@@ -12,8 +12,10 @@ export function comments(state = [], action) {
     let comments = []
     switch(action.type) {
         case GET_POST_COMMENTS:
+            const postId = action.postId;
             comments = action.comments;
-            return [...comments]
+            const newState = state.filter((c)=>c.parentId !== postId)
+            return [...newState, ...comments]
 
         case ADD_COMMENT:
             comment = action.comment;
@@ -26,7 +28,7 @@ export function comments(state = [], action) {
             comments = state.filter((c) => c.id !== comment.id)
             return [
                 ...comments,
-                comment
+                {...comment}
             ]
         case UPVOTE_COMMENT:
             comment = action.comment;

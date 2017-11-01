@@ -8,10 +8,11 @@ import {
 } from '../actions'
 
 
-export const listPostComments = (comments) => {
+export const listPostComments = (comments, postId) => {
     return {
         type: GET_POST_COMMENTS,
-        comments
+        comments,
+        postId
     }
 }
 

@@ -28,8 +28,8 @@ class PostList extends Component {
             .then((posts) => {
                 if (posts && posts.length > 0) {
                     posts.map((post) =>
-                        getPostComments(post.id).then((post) =>
-                            this.props.getPostComments(post)
+                        getPostComments(post.id).then((comments) =>
+                            this.props.getPostComments(comments, post.id)
                         )
                     )
                 }
@@ -57,8 +57,8 @@ class PostList extends Component {
                 .then((posts) => {
                     if (posts && posts.length > 0) {
                         posts.map((post) =>
-                            getPostComments(post.id).then((post) =>
-                                this.props.getPostComments(post)
+                            getPostComments(post.id).then((comments) =>
+                                this.props.getPostComments(comments, post.id)
                             )
                         )
                     }
@@ -136,7 +136,7 @@ function mapStateToProps({posts, comments}){
 function mapDispatchToProps(dispatch){
     return {
         getPosts: (data) => dispatch(listPosts(data)),
-        getPostComments: (comments) => (listPostComments(comments))
+        getPostComments: (comments, postId) => dispatch(listPostComments(comments, postId))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PostList);
