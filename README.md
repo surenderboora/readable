@@ -1,3 +1,20 @@
+# Readable Frontend
+
+This is the readable frontend project for the final assessment for Udacity's Redux course which consists of a content and comment web app. Users will be able to post content to predefined categories, comment on their posts and other users' posts, and vote on posts and comments. Users will also be able to edit and delete posts and comments.
+
+This needs to be run along with readable backend API server which is present in another repository at https://github.com/surenderboora/reactnd-project-readable-starter.
+
+## Start Developing
+
+To get started developing right away:
+
+* Install and start the API server
+    - Read instruction [here](https://github.com/surenderboora/reactnd-project-readable-starter/blob/master/README.md)
+* In another terminal window, use Create React App to scaffold out the front-end
+    - `create-react-app readable`
+    - `cd readable`
+    - `npm start`
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
@@ -283,7 +300,7 @@ In the WebStorm menu `Run` select `Edit Configurations...`. Then click `+` and s
 
 Start your app by running `npm start`, then press `^D` on macOS or `F9` on Windows and Linux or click the green debug icon to start debugging in WebStorm.
 
-The same way you can debug your application in IntelliJ IDEA Ultimate, PhpStorm, PyCharm Pro, and RubyMine. 
+The same way you can debug your application in IntelliJ IDEA Ultimate, PhpStorm, PyCharm Pro, and RubyMine.
 
 ## Formatting Code Automatically
 
@@ -1769,7 +1786,7 @@ If you’re using [Apache HTTP Server](https://httpd.apache.org/), you need to c
     RewriteRule ^ index.html [QSA,L]
 ```
 
-It will get copied to the `build` folder when you run `npm run build`. 
+It will get copied to the `build` folder when you run `npm run build`.
 
 If you’re using [Apache Tomcat](http://tomcat.apache.org/), you need to follow [this Stack Overflow answer](https://stackoverflow.com/a/41249464/4878474).
 
