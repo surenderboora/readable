@@ -26,7 +26,11 @@ class PostDetails extends Component {
     e.preventDefault();
     deletePost(post.id)
       .then((post)=> this.props.removePost(post.id))
-      .then(()=> this.props.onAfterPostDelete());
+      .then(() => {
+        if (this.props.onAfterPostDelete) {
+          this.props.onAfterPostDelete()
+        }
+      });
   }
   showCreateCommentModal = (e) => {
     e.preventDefault();
