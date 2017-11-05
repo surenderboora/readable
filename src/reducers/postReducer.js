@@ -26,7 +26,7 @@ export function posts(state = [], action) {
         case DOWNVOTE_POST:
             post = action.post;
             posts = state.filter((p) => p.id !== post.id)
-            return posts.concat(post)
+            return post? posts.concat(post): posts;
         case DETETE_POST:
             postId = action.postId
             posts = state.filter((post) => post.id !== postId)

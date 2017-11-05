@@ -73,7 +73,9 @@ class App extends Component {
           <div className="container">
           <Row>
             <Col xs={9} md={9}>
-              <PostDetailsContainer postId={route.match.params.postId}/>
+              <PostDetailsContainer postId={route.match.params.postId} onAfterPostDelete={() =>
+                  route.history.push('/')
+                }/>
               {/* <CreatePostDialog className="pull-right"/> */}
             </Col>
             <Col xs={3} md={3}><CategoryList /></Col>

@@ -46,11 +46,16 @@ export const updatePost = (post) =>
 
 export const getPost = (postId) =>
   fetch(`${api}/posts/${postId}`, { headers })
-    .then(res => res.json())
+    .then(res => {
+      if(res.status >= 200 && res.status < 300)
+        return res.json()
+      throw Error(res.statusText);
+    })
     .then(post => {
       post['createdOn'] = timestampToDate(post['timestamp']);
       return post;
     })
+    .catch((error)=> {})
 
 export const voteOnPost = (postId, voteOption) =>
   fetch(`${api}/posts/${postId}`, {

@@ -24,7 +24,9 @@ class PostDetails extends Component {
   }
   onPostDelete = (e, post) => {
     e.preventDefault();
-    deletePost(post.id).then((post)=> this.props.removePost(post.id));
+    deletePost(post.id)
+      .then((post)=> this.props.removePost(post.id))
+      .then(()=> this.props.onAfterPostDelete());
   }
   showCreateCommentModal = (e) => {
     e.preventDefault();
@@ -35,9 +37,14 @@ class PostDetails extends Component {
     this.setState({showCommentDialog: false});
   }
   render() {
-    const {post, showPostDetails} = this.props;
-    //console.log("Post details props post is ",  post);
+    const {post, showPostDetails, postNotFound} = this.props;
+    console.log("Post details props is ",  this.props);
     const { showCommentDialog } = this.state;
+    if(!post || postNotFound === true) {
+      return (
+        <div>Request Post doesn't exist. Go to <Link to="/">Post List</Link> </div>
+        )
+    }
     return (
       <div className="panel panel-default">
         <div className="panel-body">
@@ -122,6 +129,9 @@ class PostDetails extends Component {
 function mapStateToProps({posts, comments}, ownProps) {
   const postId = ownProps.post.id;
   let post = posts.find((p) => p.id === postId);
+  if (!post) {
+    return {post}
+  }
   let post_comments = comments ? comments.filter((c) => c.parentId === postId) : [];
   post_comments.sort(dynamicSort('voteScore', 'desc'))
   post.comments = post_comments;

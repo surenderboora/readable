@@ -7,17 +7,32 @@ import {listPostComments} from '../actionCreators/commentActionCreators'
 
 class PostDetailsContainer extends Component {
     state = {
-        isLoading: true
+        isLoading: true,
+        postNotFound: false
     }
     componentDidMount=() => {
         const postId = this.props.postId;
         getPost(postId)
-            .then((data) => this.props.getPost(data))
-            .then(() =>
-                getPostComments(postId)
-                    .then((data) => this.props.getPostComments(data, postId))
+            .then((data) => {
+                if (!data) {
+                    this.setState({
+                        isLoading: false,
+                        postNotFound:true
+                    })
+                } else {
+                    this.props.getPost(data);
+                    getPostComments(postId)
+                        .then((data) => this.props.getPostComments(data, postId))
+                        .then(()=>this.setState({isLoading: false, postNotFound: false}))
+                    }
+                }
             )
-            .then(()=>this.setState({isLoading: false}))
+            .catch((error) => {
+                this.setState({
+                    isLoading: false,
+                    postNotFound:true
+                })
+            })
     }
     componentDidUpdate = (prevProps, prevState) => {
         const prevPostId = prevProps.postId;
@@ -30,13 +45,14 @@ class PostDetailsContainer extends Component {
         }
     }
     render() {
-        const {post} = this.props;
-        const isLoading = this.state.isLoading;
+        const {post, onAfterPostDelete} = this.props;
+        const { isLoading, postNotFound } = this.state;
+
         return (
             <div>
             {isLoading && (<div>Loading ...</div>)}
             {!isLoading &&
-            (<PostDetails post={post} showPostDetails={true}/>)}
+            (<PostDetails post={post} showPostDetails={true} postNotFound={postNotFound} onAfterPostDelete={onAfterPostDelete}/>)}
             </div>
         );
     }
