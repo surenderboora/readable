@@ -118,7 +118,7 @@ class PostList extends Component {
 
                     </div>
                     <div className="post-list-header-button pull-right">
-                        <Link to="/newpost" className="btn btn-primary">Create Post</Link>
+                        <Link to="posts/new" className="btn btn-primary">Create Post</Link>
                     </div>
                     <div className="clearfix"/>
                 </div>

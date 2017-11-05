@@ -3,10 +3,13 @@ import '../static/css/App.css';
 import CategoryList from './CategoryList';
 import PostList from './PostList';
 import PostDetailsContainer from './PostDetailsContainer'
-import {Jumbotron, Row, Col} from 'react-bootstrap';
+import { Jumbotron, Row, Col } from 'react-bootstrap';
 import CreatePostDialog from './CreatePostDialog'
-import {Route, Link} from 'react-router-dom';
+import { Switch, Route } from 'react-router'
+import { Link } from 'react-router-dom';
 import CreateEditPost from './CreateEditPost'
+import { NoMatch } from './NoMatch'
+
 class App extends Component {
   render() {
     return (
@@ -27,6 +30,7 @@ class App extends Component {
             </div>
           </div>
         }></Route>
+        <Switch>
         <Route exact path="/" render={() =>
           <div className="container">
           <Row>
@@ -49,6 +53,22 @@ class App extends Component {
           </Row>
           </div>
         }></Route>
+        <Route exact path="/posts/new" render={(route) =>
+          <div className="container">
+          <Row>
+            <Col xs={9} md={9}>
+              <CreateEditPost postId={route.match.params.postId}
+                isEdit={false}
+                onUpdatePost={() =>
+                  route.history.goBack()
+                }
+              />
+            </Col>
+            <Col xs={3} md={3}><CategoryList /></Col>
+          </Row>
+          </div>
+        }>
+        </Route>
         <Route exact path="/posts/:postId" render={(route) =>
           <div className="container">
           <Row>
@@ -76,22 +96,8 @@ class App extends Component {
           </div>
         }>
         </Route>
-        <Route exact path="/newpost" render={(route) =>
-          <div className="container">
-          <Row>
-            <Col xs={9} md={9}>
-              <CreateEditPost postId={route.match.params.postId}
-                isEdit={false}
-                onUpdatePost={() =>
-                  route.history.goBack()
-                }
-              />
-            </Col>
-            <Col xs={3} md={3}><CategoryList /></Col>
-          </Row>
-          </div>
-        }>
-        </Route>
+        <Route component={NoMatch}/>
+        </Switch>
       </div>
 
     );
