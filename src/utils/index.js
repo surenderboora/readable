@@ -14,7 +14,15 @@ export function timestampToDate(timestamp) {
 						'August', 'September', 'October', 'November', 'December'];
 	const shortMonthNames = monthNames.map((name) => name.substr(0,3));
 	const d = new Date(timestamp);
-	return  shortMonthNames[d.getMonth()] + ' '+ d.getDate() + ', ' + d.getFullYear()
+  const monthName = shortMonthNames[d.getMonth()],
+    day = d.getDate(),
+    year = d.getFullYear(),
+    hours = ('0' + d.getHours()).slice(-2),
+    minutes = ('0' + d.getMinutes()).slice(-2),
+    seconds = ('0' + d.getSeconds()).slice(-2);
+  let dateTmpl = `${monthName} ${day}, ${year} ${hours}:${minutes}:${seconds}`
+  return dateTmpl;
+	// return shortMonthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 }
 
 export function getUniqueId() {
