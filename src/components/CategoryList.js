@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import {Panel} from 'react-bootstrap';
-import {getCategories} from '../apis/ReadableAPI'
-import {Link} from 'react-router-dom';
+import { Panel } from 'react-bootstrap';
+import { getCategories } from '../apis/categories'
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
-import {listCategories} from '../actionCreators'
+import { listCategories } from '../actionCreators'
+
 class CategoryList extends Component {
-    componentDidMount =()=>{
+    componentDidMount = () => {
         getCategories()
             .then((data)=> { this.props.getCategories(data)});
     }

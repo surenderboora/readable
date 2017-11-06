@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import {Panel, Table} from 'react-bootstrap';
 import '../static/css/App.css'
 import { dynamicSort, timestampToDate } from '../utils'
-import PostDetails from './PostDetails'
+import Post from './Post'
 import { connect } from 'react-redux'
-import { getPosts, getPostComments } from '../apis/ReadableAPI'
+import { getPosts } from '../apis/posts'
+import { getPostComments } from '../apis/comments'
 import { listPosts } from '../actionCreators/postActionCreators'
 import { listPostComments } from '../actionCreators/commentActionCreators'
 import {Link} from 'react-router-dom'
@@ -23,17 +24,17 @@ class PostList extends Component {
         getPosts(category)
             .then((posts) => {
                 this.props.getPosts(posts)
-                return posts
+                // return posts
             })
-            .then((posts) => {
-                if (posts && posts.length > 0) {
-                    posts.map((post) =>
-                        getPostComments(post.id).then((comments) =>
-                            this.props.getPostComments(comments, post.id)
-                        )
-                    )
-                }
-            });
+            // .then((posts) => {
+            //     if (posts && posts.length > 0) {
+            //         posts.map((post) =>
+            //             getPostComments(post.id).then((comments) =>
+            //                 this.props.getPostComments(comments, post.id)
+            //             )
+            //         )
+            //     }
+            // });
         let { sortOrder, sortedOn } = this.state;
         if (sortableFields.indexOf(sortedOn) < 0) {
             sortedOn = sortableFields[0];
@@ -54,15 +55,15 @@ class PostList extends Component {
         if(prevCategory !== category) {
             getPosts(category)
                 .then((data) => this.props.getPosts(data))
-                .then((posts) => {
-                    if (posts && posts.length > 0) {
-                        posts.map((post) =>
-                            getPostComments(post.id).then((comments) =>
-                                this.props.getPostComments(comments, post.id)
-                            )
-                        )
-                    }
-                });
+                // .then((posts) => {
+                //     if (posts && posts.length > 0) {
+                //         posts.map((post) =>
+                //             getPostComments(post.id).then((comments) =>
+                //                 this.props.getPostComments(comments, post.id)
+                //             )
+                //         )
+                //     }
+                // });
         }
     }
     onSortClick = (e, sortedOn, sortOrder) => {
@@ -76,13 +77,12 @@ class PostList extends Component {
     render () {
         let { sortOrder, sortedOn } = this.state;
         let {posts} = this.props;
-        let {showPostDetails} = this.props;
         posts = posts.sort(dynamicSort(sortedOn, sortOrder));
         const {comments} = this.props;
-        posts.forEach((post) => {
-            post['createdOn'] = timestampToDate(post['timestamp']);
-            post.comments = comments.filter((c) => c.parentId == post.id);
-        })
+        // posts.forEach((post) => {
+        //     post['createdOn'] = timestampToDate(post['timestamp']);
+        //     post.comments = comments.filter((c) => c.parentId == post.id);
+        // })
         let sortFields = sortableFields.map((field, index) => {
             let fieldObj = {
                 value: field,
@@ -124,7 +124,7 @@ class PostList extends Component {
                 </div>
                 {posts.length === 0 && <div className="post-list-empty-container"> No Posts found. Go ahead and create one now.</div>}
                 {posts.length > 0 && posts.map((post) => (
-                <PostDetails key={post.id} post={post} showPostDetails={showPostDetails}/>
+                <Post key={post.id} post={post}/>
                 ))}
             </div>
         );

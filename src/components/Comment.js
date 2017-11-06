@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { voteOnComment, deleteComment } from '../apis/ReadableAPI'
+import { voteOnComment, deleteComment } from '../apis/comments'
 import {
   upvoteComment,
   downvoteComment,

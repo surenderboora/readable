@@ -7,7 +7,7 @@ import {
   FormGroup,
   HelpBlock,
   Modal } from 'react-bootstrap';
-import { updateComment } from '../apis/ReadableAPI'
+import { updateComment } from '../apis/comments'
 import * as CommentActions from '../actionCreators/commentActionCreators'
 import { getUniqueId } from '../utils'
 import { connect } from 'react-redux'

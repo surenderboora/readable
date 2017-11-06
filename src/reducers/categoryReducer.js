@@ -1,11 +1,11 @@
 import { GET_CATEGORIES } from '../actions'
+import { dynamicSort } from '../utils'
 
 export function categories(state = [], action) {
-    console.log(action)
     switch(action.type) {
         case GET_CATEGORIES:
             const {categories} = action;
-            return categories
+            return categories.sort(dynamicSort('name', 'asc'))
         default:
             return state
     }

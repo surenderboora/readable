@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import {getPost, getPostComments} from '../apis/ReadableAPI'
+import { getPost } from '../apis/posts'
+import { getPostComments } from '../apis/comments'
 import PostDetails from './PostDetails'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import * as postActions from '../actionCreators/postActionCreators'
-import {listPostComments} from '../actionCreators/commentActionCreators'
+import { listPostComments } from '../actionCreators/commentActionCreators'
 
 class PostDetailsContainer extends Component {
     state = {

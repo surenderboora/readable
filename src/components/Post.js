@@ -10,10 +10,8 @@ import {
   removePost
 } from '../actionCreators/postActionCreators';
 import {dynamicSort} from '../utils'
-class PostDetails extends Component {
-  state = {
-    showCommentDialog : false
-  }
+class Post extends Component {
+  state = { }
   onPostUpvote = (e, post) => {
     e.preventDefault();
     voteOnPost(post.id, 'upVote').then(post => this.props.upvotePost(post));
@@ -32,23 +30,8 @@ class PostDetails extends Component {
         }
       });
   }
-  showCreateCommentModal = (e) => {
-    e.preventDefault();
-    this.setState({showCommentDialog: true});
-  }
-  hideCreateCommentModal= (e) => {
-    e && e.preventDefault();
-    this.setState({showCommentDialog: false});
-  }
   render() {
-    const {post, showPostDetails, postNotFound} = this.props;
-    console.log("Post details props is ",  this.props);
-    const { showCommentDialog } = this.state;
-    if(!post || postNotFound === true) {
-      return (
-        <div>Request Post doesn't exist. Go to <Link to="/">Post List</Link> </div>
-        )
-    }
+    const { post } = this.props;
     return (
       <div className="panel panel-default">
         <div className="panel-body">
@@ -84,6 +67,7 @@ class PostDetails extends Component {
               <hr />
               <div className="post-footer-option container">
                 <ul className="list-unstyled">
+                  <li> {post.commentCount} Comments</li>
                   <li>
                     <a href="#" onClick={(e) => this.onPostDownvote(e, post)}>
                       <i className="glyphicon glyphicon-thumbs-down"></i>
@@ -93,28 +77,7 @@ class PostDetails extends Component {
                       <i className="glyphicon glyphicon-thumbs-up"></i>
                     </a>
                   </li>
-
-                  <li>
-                    <a href="#" onClick={(e)=> this.showCreateCommentModal(e)}>
-                      <i className="glyphicon glyphicon-comment"></i>
-                      Comment
-                    </a>
-                  </li>
-
                 </ul>
-              </div>
-              <div className="post-footer-comment-wrapper">
-                 <div className="comment-form">
-                  <CreateCommentDialog
-                    postId={post.id}
-                    isEdit={false}
-                    show={showCommentDialog}
-                    showModal={this.showCreateCommentModal}
-                    hideModal={this.hideCreateCommentModal}/>
-                 </div>
-                 {post.comments && post.comments.map((comment) => (
-                    <Comment key={comment.id} comment={comment}/>
-                 ))}
               </div>
            </section>
         </div>
@@ -126,12 +89,6 @@ class PostDetails extends Component {
 function mapStateToProps({posts, comments}, ownProps) {
   const postId = ownProps.post.id;
   let post = posts.find((p) => p.id === postId);
-  if (!post) {
-    return {post}
-  }
-  let post_comments = comments ? comments.filter((c) => c.parentId === postId) : [];
-  post_comments.sort(dynamicSort('voteScore', 'desc'))
-  post.comments = post_comments;
   return {post}
 }
 
@@ -143,4 +100,4 @@ function mapDispatchToProps(dispatch){
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(Post);

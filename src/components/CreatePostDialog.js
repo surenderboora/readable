@@ -7,7 +7,7 @@ import {
   FormGroup,
   HelpBlock,
   Modal } from 'react-bootstrap';
-import { createPost } from '../apis/ReadableAPI'
+import { createPost } from '../apis/posts'
 import * as PostActions from '../actionCreators/postActionCreators'
 import { getUniqueId } from '../utils'
 import { connect } from 'react-redux'

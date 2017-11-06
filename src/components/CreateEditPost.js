@@ -11,7 +11,7 @@ import {
   Modal } from 'react-bootstrap';
 import {FieldGroup} from './FieldGroup'
 import {Link} from 'react-router-dom'
-import { createPost, updatePost } from '../apis/ReadableAPI'
+import { createPost, updatePost } from '../apis/posts'
 import * as PostActions from '../actionCreators/postActionCreators'
 import {getUniqueId} from '../utils'
 const ERROR_CONSTANTS = {
