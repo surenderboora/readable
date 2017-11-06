@@ -46,7 +46,7 @@ class PostDetails extends Component {
     const { showCommentDialog } = this.state;
     if(!post || postNotFound === true) {
       return (
-        <div>Request Post doesn't exist. Go to <Link to="/">Post List</Link> </div>
+        <div>Requested Post doesn't exist. Go to <Link to="/">Post List</Link> </div>
         )
     }
     return (
