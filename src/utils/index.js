@@ -28,7 +28,7 @@ export function timestampToDate(timestamp) {
 export function getUniqueId() {
   let id = '';
   for (let i = 0; i < 20; i++) {
-    let index = parseInt(Math.random() * 1000000) % 36;
+    let index = parseInt(Math.random() * 1000000, 10) % 36;
     id += 'abcdefghijklmnopqrstuvwxyz0123456789'[index]
   }
   return id

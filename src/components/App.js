@@ -3,8 +3,7 @@ import '../static/css/App.css';
 import CategoryList from './CategoryList';
 import PostList from './PostList';
 import PostDetailsContainer from './PostDetailsContainer'
-import { Jumbotron, Row, Col } from 'react-bootstrap';
-import CreatePostDialog from './CreatePostDialog'
+import { Row, Col } from 'react-bootstrap';
 import { Switch, Route } from 'react-router'
 import { Link } from 'react-router-dom';
 import CreateEditPost from './CreateEditPost'
@@ -36,7 +35,6 @@ class App extends Component {
           <Row>
             <Col xs={9} md={9}>
               <PostList showPostDetails={false}/>
-              {/*<CreatePostDialog className="pull-right"/>*/}
             </Col>
             <Col xs={3} md={3}><CategoryList /></Col>
           </Row>
@@ -47,7 +45,6 @@ class App extends Component {
           <Row>
             <Col xs={9} md={9}>
               <PostList category = {route.match.params.category} showPostDetails={false}/>
-              {/* <CreatePostDialog className="pull-right" isEdit={false}/> */}
             </Col>
             <Col xs={3} md={3}><CategoryList /></Col>
           </Row>
@@ -76,7 +73,6 @@ class App extends Component {
               <PostDetailsContainer postId={route.match.params.postId} onAfterPostDelete={() =>
                   route.history.push('/')
                 }/>
-              {/* <CreatePostDialog className="pull-right"/> */}
             </Col>
             <Col xs={3} md={3}><CategoryList /></Col>
           </Row>

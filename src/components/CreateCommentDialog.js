@@ -5,7 +5,6 @@ import {
   ControlLabel,
   FormControl,
   FormGroup,
-  HelpBlock,
   Modal } from 'react-bootstrap';
 import { createComment } from '../apis/comments'
 import * as CommentActions from '../actionCreators/commentActionCreators'
@@ -68,12 +67,9 @@ class CreateCommentDialog extends Component {
   render() {
     const comment = this.state.comment;
     const isEdit = !!this.props.isEdit;
-    const onTitleChange = this.onTitleChange,
-      onBodyChange = this.onBodyChange,
-      onAuthorChange = this.onAuthorChange,
-      onCategoryChange = this.onCategoryChange;
-    const categories = [{'id':'react', 'name':'react'},{'id':'redux', 'name':'redux'}]
-    const { show, showModal, hideModal } = this.props;
+    const onBodyChange = this.onBodyChange,
+      onAuthorChange = this.onAuthorChange;
+    const { show, hideModal } = this.props;
     return (
       <ButtonToolbar>
         <Modal

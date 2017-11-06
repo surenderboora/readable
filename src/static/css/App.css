@@ -125,3 +125,6 @@ body{
 .sort-container span.sortable.active{
   padding-right: 25px;
 }
+.btn.btn-link{
+  padding:0;
+}

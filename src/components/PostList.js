@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import {Panel, Table} from 'react-bootstrap';
 import '../static/css/App.css'
-import { dynamicSort, timestampToDate } from '../utils'
+import { dynamicSort } from '../utils'
 import Post from './Post'
 import { connect } from 'react-redux'
 import { getPosts } from '../apis/posts'
-import { getPostComments } from '../apis/comments'
 import { listPosts } from '../actionCreators/postActionCreators'
-import { listPostComments } from '../actionCreators/commentActionCreators'
 import {Link} from 'react-router-dom'
 
 const sortableFields = ['voteScore', 'timestamp'];
@@ -24,17 +21,7 @@ class PostList extends Component {
         getPosts(category)
             .then((posts) => {
                 this.props.getPosts(posts)
-                // return posts
             })
-            // .then((posts) => {
-            //     if (posts && posts.length > 0) {
-            //         posts.map((post) =>
-            //             getPostComments(post.id).then((comments) =>
-            //                 this.props.getPostComments(comments, post.id)
-            //             )
-            //         )
-            //     }
-            // });
         let { sortOrder, sortedOn } = this.state;
         if (sortableFields.indexOf(sortedOn) < 0) {
             sortedOn = sortableFields[0];
@@ -55,15 +42,6 @@ class PostList extends Component {
         if(prevCategory !== category) {
             getPosts(category)
                 .then((data) => this.props.getPosts(data))
-                // .then((posts) => {
-                //     if (posts && posts.length > 0) {
-                //         posts.map((post) =>
-                //             getPostComments(post.id).then((comments) =>
-                //                 this.props.getPostComments(comments, post.id)
-                //             )
-                //         )
-                //     }
-                // });
         }
     }
     onSortClick = (e, sortedOn, sortOrder) => {
@@ -78,11 +56,6 @@ class PostList extends Component {
         let { sortOrder, sortedOn } = this.state;
         let {posts} = this.props;
         posts = posts.sort(dynamicSort(sortedOn, sortOrder));
-        const {comments} = this.props;
-        // posts.forEach((post) => {
-        //     post['createdOn'] = timestampToDate(post['timestamp']);
-        //     post.comments = comments.filter((c) => c.parentId == post.id);
-        // })
         let sortFields = sortableFields.map((field, index) => {
             let fieldObj = {
                 value: field,
@@ -130,13 +103,12 @@ class PostList extends Component {
         );
     }
 }
-function mapStateToProps({posts, comments}){
-    return {posts, comments}
+function mapStateToProps({posts}){
+    return {posts}
 }
 function mapDispatchToProps(dispatch){
     return {
-        getPosts: (data) => dispatch(listPosts(data)),
-        getPostComments: (comments, postId) => dispatch(listPostComments(comments, postId))
+        getPosts: (data) => dispatch(listPosts(data))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PostList);

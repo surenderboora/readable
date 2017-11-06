@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
-import {Row, Col} from 'react-bootstrap';
 import {
   Button,
-  ButtonToolbar,
   ControlLabel,
   FormControl,
   FormGroup,
@@ -226,7 +224,7 @@ class CreateEditPost extends Component {
 }
 function mapStateToProps({posts, categories}, ownProps) {
   const postId = ownProps.postId;
-  const post = posts.find((p) => p.id == postId);
+  const post = posts.find((p) => p.id === postId);
   return {post, categories}
 }
 function mapDispatchToProps(dispatch) {

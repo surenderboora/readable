@@ -53,7 +53,7 @@ class PostDetailsContainer extends Component {
             <div>
             {isLoading && (<div>Loading ...</div>)}
             {!isLoading &&
-            (<PostDetails post={post} showPostDetails={true} postNotFound={postNotFound} onAfterPostDelete={onAfterPostDelete}/>)}
+            (<PostDetails post={post} postNotFound={postNotFound} onAfterPostDelete={onAfterPostDelete}/>)}
             </div>
         );
     }
@@ -61,7 +61,7 @@ class PostDetailsContainer extends Component {
 
 function mapStateToProps({posts, comments}, ownProps) {
     const postId = ownProps.postId;
-    let post = posts.find((p) => p.id == postId) || {}
+    let post = posts.find((p) => p.id === postId) || {}
     return {post: post}
 }
 

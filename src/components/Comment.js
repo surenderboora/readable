@@ -52,13 +52,13 @@ class Comment extends Component {
           </div>
           <div className="col-md-2">
             <div className="pull-right">
-            <a href="#" onClick={(e) => this.onCommentDelete(e, comment)}>
+            <button className="btn btn-link" onClick={(e) => this.onCommentDelete(e, comment)}>
               <i className="glyphicon glyphicon-trash"></i>
-            </a>
+            </button>
             <span className="ph4">|</span>
-            <a href="#" onClick={(e) => this.onCommentEdit(e, comment)}>
+            <button className="btn btn-link" onClick={(e) => this.onCommentEdit(e, comment)}>
               <i className="glyphicon glyphicon-edit"></i>
-            </a>
+            </button>
             </div>
             {isEditing && <EditCommentDialog comment={comment} show={true} hideModal={this.hideCommentEditDialog}/>}
           </div>
@@ -67,13 +67,13 @@ class Comment extends Component {
           <div>
             <ul className="list-unstyled">
               <li>
-                <a href="#" onClick={(e) => this.onCommentDownvote(e, comment)}>
-                  <i className="glyphicon glyphicon-thumbs-down"></i>&nbsp;
-                </a>
-                  {comment.voteScore}
-                <a href="#" onClick={(e) => this.onCommentUpvote(e, comment)}>
-                  &nbsp;<i className="glyphicon glyphicon-thumbs-up"></i>
-                </a>
+                <button className="btn btn-link" onClick={(e) => this.onCommentDownvote(e, comment)}>
+                  <i className="glyphicon glyphicon-thumbs-down"></i>
+                </button>
+                <span className="ph4">{comment.voteScore}</span>
+                <button className="btn btn-link" onClick={(e) => this.onCommentUpvote(e, comment)}>
+                  <i className="glyphicon glyphicon-thumbs-up"></i>
+                </button>
               </li>
             </ul>
           </div>
@@ -84,7 +84,7 @@ class Comment extends Component {
 }
 function mapStateToProps({comments}, ownProps) {
   const { comment } = ownProps;
-  const updatedComment = comments.find((c) => c.id == comment.id);
+  const updatedComment = comments.find((c) => c.id === comment.id);
   return {
     comment: updatedComment
   }

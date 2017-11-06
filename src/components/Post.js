@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Comment from './Comment';
-import CreateCommentDialog from './CreateCommentDialog'
 import { Link } from 'react-router-dom';
 import { voteOnPost, deletePost } from '../apis/posts';
 import { connect } from 'react-redux';
@@ -9,7 +7,7 @@ import {
   downvotePost,
   removePost
 } from '../actionCreators/postActionCreators';
-import {dynamicSort} from '../utils'
+
 class Post extends Component {
   state = { }
   onPostUpvote = (e, post) => {
@@ -48,13 +46,15 @@ class Post extends Component {
               </div>
               <div className="col-md-2">
                 <div className="pull-right">
-                  <a href="#" onClick={(e) => this.onPostDelete(e, post)}>
+                  <button className="btn btn-link" onClick={(e) => this.onPostDelete(e, post)}>
                     <i className="glyphicon glyphicon-trash"></i>
-                  </a>
+                  </button>
                   <span className="ph4">|</span>
-                  <Link to={`/posts/${post.id}/edit`}>
-                    <i className="glyphicon glyphicon-edit"></i>
-                  </Link>
+                  <button className="btn btn-link">
+                    <Link to={`/posts/${post.id}/edit`}>
+                      <i className="glyphicon glyphicon-edit"></i>
+                    </Link>
+                  </button>
                 </div>
               </div>
             </div>
@@ -69,13 +69,13 @@ class Post extends Component {
                 <ul className="list-unstyled">
                   <li> {post.commentCount} Comments</li>
                   <li>
-                    <a href="#" onClick={(e) => this.onPostDownvote(e, post)}>
+                    <button className="btn btn-link" onClick={(e) => this.onPostDownvote(e, post)}>
                       <i className="glyphicon glyphicon-thumbs-down"></i>
-                    </a>
+                    </button>
                     <span className="ph4">{post.voteScore}</span>
-                    <a href="#" onClick={(e) => this.onPostUpvote(e, post)}>
+                    <button className="btn btn-link" onClick={(e) => this.onPostUpvote(e, post)}>
                       <i className="glyphicon glyphicon-thumbs-up"></i>
-                    </a>
+                    </button>
                   </li>
                 </ul>
               </div>

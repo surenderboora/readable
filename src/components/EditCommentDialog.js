@@ -5,13 +5,10 @@ import {
   ControlLabel,
   FormControl,
   FormGroup,
-  HelpBlock,
   Modal } from 'react-bootstrap';
 import { updateComment } from '../apis/comments'
 import * as CommentActions from '../actionCreators/commentActionCreators'
-import { getUniqueId } from '../utils'
 import { connect } from 'react-redux'
-import {FieldGroup} from './FieldGroup'
 
 class EditCommentDialog extends Component {
   state = {

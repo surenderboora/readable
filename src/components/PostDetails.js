@@ -9,7 +9,7 @@ import {
   downvotePost,
   removePost
 } from '../actionCreators/postActionCreators';
-import {dynamicSort} from '../utils'
+
 class PostDetails extends Component {
   state = {
     showCommentDialog : false
@@ -41,7 +41,7 @@ class PostDetails extends Component {
     this.setState({showCommentDialog: false});
   }
   render() {
-    const {post, showPostDetails, postNotFound} = this.props;
+    const {post, comments, postNotFound} = this.props;
     console.log("Post details props is ",  this.props);
     const { showCommentDialog } = this.state;
     if(!post || postNotFound === true) {
@@ -65,9 +65,9 @@ class PostDetails extends Component {
               </div>
               <div className="col-md-2">
                 <div className="pull-right">
-                  <a href="#" onClick={(e) => this.onPostDelete(e, post)}>
+                  <button className="btn btn-link" onClick={(e) => this.onPostDelete(e, post)}>
                     <i className="glyphicon glyphicon-trash"></i>
-                  </a>
+                  </button>
                   <span className="ph4">|</span>
                   <Link to={`/posts/${post.id}/edit`}>
                     <i className="glyphicon glyphicon-edit"></i>
@@ -85,20 +85,20 @@ class PostDetails extends Component {
               <div className="post-footer-option container">
                 <ul className="list-unstyled">
                   <li>
-                    <a href="#" onClick={(e) => this.onPostDownvote(e, post)}>
+                    <button className="btn btn-link" onClick={(e) => this.onPostDownvote(e, post)}>
                       <i className="glyphicon glyphicon-thumbs-down"></i>
-                    </a>
+                    </button>
                     <span className="ph4">{post.voteScore}</span>
-                    <a href="#" onClick={(e) => this.onPostUpvote(e, post)}>
+                    <button className="btn btn-link" onClick={(e) => this.onPostUpvote(e, post)}>
                       <i className="glyphicon glyphicon-thumbs-up"></i>
-                    </a>
+                    </button>
                   </li>
 
                   <li>
-                    <a href="#" onClick={(e)=> this.showCreateCommentModal(e)}>
+                    <button className="btn btn-link" onClick={(e)=> this.showCreateCommentModal(e)}>
                       <i className="glyphicon glyphicon-comment"></i>
                       Comment
-                    </a>
+                    </button>
                   </li>
 
                 </ul>
@@ -112,7 +112,7 @@ class PostDetails extends Component {
                     showModal={this.showCreateCommentModal}
                     hideModal={this.hideCreateCommentModal}/>
                  </div>
-                 {post.comments && post.comments.map((comment) => (
+                 {comments && comments.map((comment) => (
                     <Comment key={comment.id} comment={comment}/>
                  ))}
               </div>
@@ -127,12 +127,9 @@ function mapStateToProps({posts, comments}, ownProps) {
   const postId = ownProps.post.id;
   let post = posts.find((p) => p.id === postId);
   if (!post) {
-    return {post}
+    return {post, comments: []}
   }
-  let post_comments = comments ? comments.filter((c) => c.parentId === postId) : [];
-  post_comments.sort(dynamicSort('voteScore', 'desc'))
-  post.comments = post_comments;
-  return {post}
+  return {post, comments}
 }
 
 function mapDispatchToProps(dispatch){
