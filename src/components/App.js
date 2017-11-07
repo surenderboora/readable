@@ -40,7 +40,7 @@ class App extends Component {
           </Row>
           </div>
         }></Route>
-        <Route exact path="/:category/posts" render={(route) =>
+        <Route exact path="/:category" render={(route) =>
           <div className="container">
           <Row>
             <Col xs={9} md={9}>
@@ -66,7 +66,7 @@ class App extends Component {
           </div>
         }>
         </Route>
-        <Route exact path="/posts/:postId" render={(route) =>
+        <Route exact path="/:category/:postId" render={(route) =>
           <div className="container">
           <Row>
             <Col xs={9} md={9}>
@@ -78,7 +78,7 @@ class App extends Component {
           </Row>
           </div>
         }></Route>
-        <Route exact path="/posts/:postId/edit" render={(route) =>
+        <Route exact path="/:category/:postId/edit" render={(route) =>
           <div className="container">
           <Row>
             <Col xs={9} md={9}>

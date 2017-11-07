@@ -42,7 +42,6 @@ class PostDetails extends Component {
   }
   render() {
     const {post, comments, postNotFound} = this.props;
-    console.log("Post details props is ",  this.props);
     const { showCommentDialog } = this.state;
     if(!post || postNotFound === true) {
       return (
@@ -57,7 +56,7 @@ class PostDetails extends Component {
               <div className="col-md-10">
                 <div className="media">
                   <div className="media-body">
-                    <Link to={`/posts/${post.id}`} className="anchor-username">
+                    <Link to={`/${post.category}/${post.id}`} className="anchor-username">
                       <h4 className="media-heading">{post.title}</h4>
                     </Link>
                   </div>
@@ -69,7 +68,7 @@ class PostDetails extends Component {
                     <i className="glyphicon glyphicon-trash"></i>
                   </button>
                   <span className="ph4">|</span>
-                  <Link to={`/posts/${post.id}/edit`}>
+                  <Link to={`/${post.category}/${post.id}/edit`}>
                     <i className="glyphicon glyphicon-edit"></i>
                   </Link>
                 </div>
@@ -97,7 +96,7 @@ class PostDetails extends Component {
                   <li>
                     <button className="btn btn-link" onClick={(e)=> this.showCreateCommentModal(e)}>
                       <i className="glyphicon glyphicon-comment"></i>
-                      Comment
+                      <span className="ph4">Comment</span>
                     </button>
                   </li>
 

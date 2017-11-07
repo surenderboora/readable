@@ -17,8 +17,8 @@ let store = createStore(
 	* Needs redux devtools extension from chrome store for this to work and this will
 	* show up a tab in dev tools with header as redux.
 	*/
-	applyMiddleware(thunk),
-	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+	// applyMiddleware(thunk),
+	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 
 )
 ReactDOM.render(

@@ -38,7 +38,7 @@ class Post extends Component {
               <div className="col-md-10">
                 <div className="media">
                   <div className="media-body">
-                    <Link to={`/posts/${post.id}`} className="anchor-username">
+                    <Link to={`/${post.category}/${post.id}`} className="anchor-username">
                       <h4 className="media-heading">{post.title}</h4>
                     </Link>
                   </div>
@@ -51,7 +51,7 @@ class Post extends Component {
                   </button>
                   <span className="ph4">|</span>
                   <button className="btn btn-link">
-                    <Link to={`/posts/${post.id}/edit`}>
+                    <Link to={`/${post.category}/${post.id}/edit`}>
                       <i className="glyphicon glyphicon-edit"></i>
                     </Link>
                   </button>
