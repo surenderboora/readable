@@ -123,12 +123,13 @@ class PostDetails extends Component {
 }
 
 function mapStateToProps({posts, comments}, ownProps) {
-  const postId = ownProps.post.id;
+  const postId = ownProps.postId;
   let post = posts.find((p) => p.id === postId);
+  const postNotFound = post ? false : true;
   if (!post) {
-    return {post, comments: []}
+    return {post, comments: [], postNotFound}
   }
-  return {post, comments}
+  return {post, comments, postNotFound}
 }
 
 function mapDispatchToProps(dispatch){

@@ -44,7 +44,8 @@ export const getPost = (postId) =>
       throw Error(res.statusText);
     })
     .then(post => {
-      post['createdOn'] = timestampToDate(post['timestamp']);
+      if(post['timestamp'])
+        post['createdOn'] = timestampToDate(post['timestamp']);
       return post;
     })
     .catch((error)=> {})

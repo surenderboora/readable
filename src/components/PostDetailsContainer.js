@@ -46,23 +46,21 @@ class PostDetailsContainer extends Component {
         }
     }
     render() {
-        const {post, onAfterPostDelete} = this.props;
+        const {postId, onAfterPostDelete} = this.props;
         const { isLoading, postNotFound } = this.state;
 
         return (
             <div>
             {isLoading && (<div>Loading ...</div>)}
             {!isLoading &&
-            (<PostDetails post={post} postNotFound={postNotFound} onAfterPostDelete={onAfterPostDelete}/>)}
+            (<PostDetails postId={postId} onAfterPostDelete={onAfterPostDelete}/>)}
             </div>
         );
     }
 }
 
-function mapStateToProps({posts, comments}, ownProps) {
-    const postId = ownProps.postId;
-    let post = posts.find((p) => p.id === postId) || {}
-    return {post: post}
+function mapStateToProps() {
+    return {}
 }
 
 function mapDispatchToProps(dispatch){
